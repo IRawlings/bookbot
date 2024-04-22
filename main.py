@@ -3,12 +3,10 @@ def main():
     text = get_book_text(book_path)
     word_count = get_book_words(text)
     letter_count = get_char_count(text)
-    s = sort_on(letter_count)
-    
     print(text)
     print(word_count)
     print(letter_count)
-    print(s)
+    char_report(letter_count, word_count)
 
 def get_book_text(path):
     with open(path) as f:
@@ -36,12 +34,33 @@ def get_char_count(book):
     # return dict
     # don't forget to print returned result in main (following previous logic, but you could print it in the function)
     return letters
-            
-def sort_on(dict):
-    return dict[0]
 
-              
-              
+        
+def char_report(letter_data, wc):
+    alphabet = [] 
+    
+    
+    # Convert letter_data to a list of dicts for each entry. i.e {"name": "a", "num": 3454} from current format of {"a": 5345}
+    # boot.dev does actually only care about isalpha() this time.
+    for key in letter_data: 
+        if key.isalpha():
+            alphabet.append({"name": key, "num": letter_data[key]})
+    
+    # Call the sort function on the dict (inline)
+    # call sort on the list, and sort largest first using the 'sort_on' function which will sort on the 'num' property
+    alphabet.sort(reverse=True, key=sort_on)
+
+    # Print the sorted varaible to the console in hte correct format with --- Start report --- and --- End Report --- 
+    print("--- Start Report ---")
+    print(f"{wc} words found in the document\n")
+    for char in alphabet:
+        print(f"The '{char['name']}' character was found {char['num']} times")
+    print("--- End Report ---")
+
+# Define a sort_on() function to sort on 'num' - largest first (reverse order)             
+def sort_on(dict):
+    return dict["num"]
+
        
 
 
